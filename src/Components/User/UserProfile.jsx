@@ -1,12 +1,14 @@
 import React from "react";
 import Feed from "../Feed/Feed";
 import { useParams } from "react-router-dom";
+import Head from "../Helper/Head";
 
 const UserProfile = () => {
   const { user } = useParams();
 
   return (
     <section className="container mainSection">
+      <Head title={user} />
       <h1 className="title">{user}</h1>
       <h1>Publicações de {user}</h1>
       <Feed user={user} />
