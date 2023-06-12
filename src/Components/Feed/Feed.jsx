@@ -1,7 +1,8 @@
+export let isInhome = true;
 import React from "react";
 import FeedModal from "./FeedModal";
 import FeedPhotos from "./FeedPhotos";
-import PropyTypes from "prop-types";
+import styles from "./Feed.module.css";
 const Feed = ({ user }) => {
   const [modalPhoto, setModalPhoto] = React.useState(null);
   const [pages, setPages] = React.useState([1]);
@@ -30,10 +31,16 @@ const Feed = ({ user }) => {
       window.removeEventListener("scroll", infiniteScroll);
     };
   }, [infinite]);
+  let inHome;
+  if (window.location.href.includes("conta")) {
+    inHome = false;
+  } else {
+    inHome = true;
+  }
 
   return (
-    <div>
-      <h1>Feed</h1>
+    <main className={styles.main}>
+      <h2> {inHome ? "Publicações" : "Minhas publicações"}</h2>
       {modalPhoto && (
         <FeedModal photo={modalPhoto} setModalPhoto={setModalPhoto} />
       )}
@@ -57,7 +64,7 @@ const Feed = ({ user }) => {
           Não existem mais postagens.
         </p>
       )}
-    </div>
+    </main>
   );
 };
 
