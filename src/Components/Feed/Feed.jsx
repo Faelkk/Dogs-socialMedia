@@ -1,8 +1,8 @@
-export let isInhome = true;
 import React from "react";
 import FeedModal from "./FeedModal";
 import FeedPhotos from "./FeedPhotos";
-import styles from "./Feed.module.css";
+import PropTypes from "prop-types";
+
 const Feed = ({ user }) => {
   const [modalPhoto, setModalPhoto] = React.useState(null);
   const [pages, setPages] = React.useState([1]);
@@ -14,7 +14,7 @@ const Feed = ({ user }) => {
       if (infinite) {
         const scroll = window.scrollY;
         const height = document.body.offsetHeight - window.innerHeight;
-        if (scroll > height * 0.75 && !wait) {
+        if (scroll > height * 0.45 && !wait) {
           setPages((pages) => [...pages, pages.length + 1]);
           wait = true;
           setTimeout(() => {
@@ -31,16 +31,9 @@ const Feed = ({ user }) => {
       window.removeEventListener("scroll", infiniteScroll);
     };
   }, [infinite]);
-  let inHome;
-  if (window.location.href.includes("conta")) {
-    inHome = false;
-  } else {
-    inHome = true;
-  }
 
   return (
-    <main className={styles.main}>
-      <h2> {inHome ? "Publicações" : "Minhas publicações"}</h2>
+    <div>
       {modalPhoto && (
         <FeedModal photo={modalPhoto} setModalPhoto={setModalPhoto} />
       )}
@@ -64,8 +57,19 @@ const Feed = ({ user }) => {
           Não existem mais postagens.
         </p>
       )}
-    </main>
+    </div>
   );
+};
+
+Feed.defaultProps = {
+  user: 0,
+};
+
+Feed.propTypes = {
+  user: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.number.isRequired,
+  ]),
 };
 
 export default Feed;
